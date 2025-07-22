@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSK Tools - CSAT Generator & Deep Link Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header with Navigation Tabs -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="header-title">GSK Tools</h1>
+                    <nav class="tab-navigation">
+                        <button class="tab-btn active" data-tab="csat">CSAT Generator</button>
+                        <button class="tab-btn" data-tab="deeplink">Deep Link Converter</button>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <!-- CSAT Generator Tab -->
+                <div id="csat-tab" class="tab-content active">
+                    <div class="card">
+                        <div class="card__header">
+                            <h2>CSAT Survey URL Generator</h2>
+                            <p>Generate both Smiley and Star survey URLs for your campaigns</p>
+                        </div>
+                        <div class="card__body">
+                            <form id="csat-form" class="form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="channel">Channel *</label>
+                                        <select id="channel" class="form-control" required>
+                                            <option value="">Select Channel</option>
+                                            <option value="1:1Email">1:1Email</option>
+                                            <option value="MassEmail">MassEmail</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="country">Country *</label>
+                                        <select id="country" class="form-control" required>
+                                            <option value="">Select Country</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="group">Group *</label>
+                                        <select id="group" class="form-control" required>
+                                            <option value="">Select Group</option>
+                                            <option value="Commercial">Commercial</option>
+                                            <option value="Medical">Medical</option>
+                                            <option value="Both">Both</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="contentlab-id">ContentLab Id</label>
+                                        <input type="text" id="contentlab-id" class="form-control" placeholder="Enter ContentLab Id">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="therapy-area">Therapy Area</label>
+                                        <input type="text" id="therapy-area" class="form-control" placeholder="Enter Therapy Area">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="brand">Brand</label>
+                                        <input type="text" id="brand" class="form-control" placeholder="Enter Brand">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="specialty">Specialty</label>
+                                        <input type="text" id="specialty" class="form-control" placeholder="Enter Specialty">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="em-na">EM NA</label>
+                                        <input type="text" id="em-na" class="form-control" placeholder="Enter EM NA">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn--primary btn--lg">Generate URLs</button>
+                                    <button type="button" class="btn btn--outline" onclick="resetCSATForm()">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="csat-results" class="results-section hidden">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Generated Survey URLs</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="url-result">
+                                    <label class="result-label">Smiley Survey URL:</label>
+                                    <div class="url-container">
+                                        <input type="text" id="smiley-url" class="form-control url-input" readonly>
+                                        <button class="btn btn--secondary btn--sm copy-btn" onclick="copyToClipboard('smiley-url')">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="url-result">
+                                    <label class="result-label">Star Survey URL:</label>
+                                    <div class="url-container">
+                                        <input type="text" id="star-url" class="form-control url-input" readonly>
+                                        <button class="btn btn--secondary btn--sm copy-btn" onclick="copyToClipboard('star-url')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Deep Link Converter Tab -->
+                <div id="deeplink-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card__header">
+                            <h2>Deep Link URL Converter</h2>
+                            <p>Convert URLs with appropriate business unit parameters</p>
+                        </div>
+                        <div class="card__body">
+                            <form id="deeplink-form" class="form">
+                                <div class="form-group">
+                                    <label class="form-label" for="input-url">Input URL *</label>
+                                    <textarea id="input-url" class="form-control textarea-large" placeholder="Enter the URL to convert..." required rows="4"></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label" for="business-unit">Business Unit *</label>
+                                        <select id="business-unit" class="form-control" required>
+                                            <option value="">Select Business Unit</option>
+                                            <option value="Pharma">Pharma</option>
+                                            <option value="ViiV">ViiV</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="output-type">Output Type *</label>
+                                        <select id="output-type" class="form-control" required>
+                                            <option value="">Select Output Type</option>
+                                            <option value="Mass">Mass</option>
+                                            <option value="Veeva">Veeva</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn--primary btn--lg">Convert URL</button>
+                                    <button type="button" class="btn btn--outline" onclick="resetDeepLinkForm()">Reset</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Deep Link Results Section -->
+                    <div id="deeplink-results" class="results-section hidden">
+                        <div class="card">
+                            <div class="card__header">
+                                <h3>Converted URL</h3>
+                            </div>
+                            <div class="card__body">
+                                <div class="url-result">
+                                    <label class="result-label">Converted URL:</label>
+                                    <div class="url-container">
+                                        <textarea id="converted-url" class="form-control url-textarea" readonly rows="3"></textarea>
+                                        <button class="btn btn--secondary btn--sm copy-btn" onclick="copyToClipboard('converted-url')">Copy</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
